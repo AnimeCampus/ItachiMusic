@@ -138,7 +138,7 @@ TG_VIDEO_FILESIZE_LIMIT = int(
 SET_CMDS = getenv("SET_CMDS", False)
 
 # You'll need a Pyrogram String Session for these vars. Generate String from our session generator bot @YukkiStringBot
-STRING1 = getenv("STRING_SESSION", None)
+STRING1 = getenv("STRING_SESSION", "BQB9xtKA3p6aHvHngYSDT_vxaNpifOf5JrpYUxgZPWpEdZKvg7LSzyGXomQtP4CP20MOnhXA5-gcig-jJb9VvFT_T6TPyUlodejtfB2cUeYSlwL4lx8yrEcGRYgwg618egNZmVZ-Koj_oYVzgMZr_QQFzvOiqWhVQdmTFYPJ937U_ZRcud3VrEkLP2iKdmKhAaqLEJwgL9_Nauomw0aMKyWvAOfPc4L4Feeg0cuOWzYRd8lGAWTb3L3ufZW6-12-BaIouGbsoZaYT2zFABMUOOgaonInYY-Z31CVvpcouF7iqYeMZ3IoOtOXd7auF0IXXzloxTQoY2IgF-q7RDcQaGfhAAAAAWVYVzQA")
 STRING2 = getenv("STRING_SESSION2", None)
 STRING3 = getenv("STRING_SESSION3", None)
 STRING4 = getenv("STRING_SESSION4", None)
