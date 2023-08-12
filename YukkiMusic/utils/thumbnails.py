@@ -3,7 +3,8 @@ import re
 import textwrap
 import aiofiles
 import aiohttp
-from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
+from PIL import (Image, ImageEnhance, ImageFilter,
+                 ImageFont, ImageOps)
 from youtubesearchpython.__future__ import VideosSearch
 
 from config import MUSIC_BOT_NAME, YOUTUBE_IMG_URL
@@ -28,10 +29,6 @@ async def gen_thumb(videoid):
             except:
                 duration = "Unknown Mins"
             thumbnail = result["thumbnails"][0]["url"].split("?")[0]
-            try:
-                channel = result["channel"]["name"]
-            except:
-                channel = "Unknown Channel"
 
         async with aiohttp.ClientSession() as session:
             async with session.get(thumbnail) as resp:
@@ -47,40 +44,39 @@ async def gen_thumb(videoid):
         background = image1.filter(filter=ImageFilter.BoxBlur(30))
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
-
+        
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("arial.ttf", 40)
+        font = ImageFont.truetype("assets/font2.ttf", 40)
         para = textwrap.wrap(title, width=32)
 
         draw.text(
-            (30, 30), f"{MUSIC_BOT_NAME}", fill="white", font=font
+            (5, 5), f"{MUSIC_BOT_NAME}", fill="white", font=font
         )
-        
+
         for line in para:
             draw.text(
-                (30, 100),
+                (30, 150),
+                "NOW PLAYING:",
+                fill="white",
+                font=font,
+            )
+            draw.text(
+                (30, 200),
                 f"{line}",
                 fill="white",
                 font=font,
             )
 
         draw.text(
-            (30, 170),
-            f"Channel: {channel}",
-            (255, 255, 255),
-            font=font,
-        )
-        
-        draw.text(
-            (30, 240),
+            (30, 280),
             f"Duration: {duration[:23]} Mins",
             (255, 255, 255),
             font=font,
         )
 
         draw.text(
-            (30, 310),
-            "@SexyNano",
+            (30, 350),
+            "#━━━━━━━━━━━━━━━━━०━━━━━#",
             fill="white",
             font=font,
         )
