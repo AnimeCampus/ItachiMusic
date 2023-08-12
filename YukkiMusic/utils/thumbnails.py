@@ -15,7 +15,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     newImage = image.resize((newWidth, newHeight))
     return newImage
 
-async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates", user_profile_image=None):
+async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates", user_profile_image="https://te.legra.ph/file/d2e45c371466b93223e23.jpg"):
     if os.path.isfile(f"cache/{videoid}.png"):
         return f"cache/{videoid}.png"
 
