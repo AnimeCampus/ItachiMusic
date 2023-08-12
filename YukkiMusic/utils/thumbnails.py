@@ -15,7 +15,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     newImage = image.resize((newWidth, newHeight))
     return newImage
 
-async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates"):
+async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates", user_profile_image=None):
     if os.path.isfile(f"cache/{videoid}.png"):
         return f"cache/{videoid}.png"
 
@@ -127,6 +127,18 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
             (255, 255, 255),
             font=arial,
         )
+
+        # Load and prepare user profile image (resize to fit within a circle)
+        if user_profile_image:
+            profile_img = Image.open(user_profile_image)
+            profile_img = profile_img.resize((100, 100))  # Resize profile image
+            mask = Image.new("L", profile_img.size, 0)
+            draw_mask = ImageDraw.Draw(mask)
+            draw_mask.ellipse((0, 0, 100, 100), fill=255)  # Create circular mask
+            profile_img.putalpha(mask)
+
+            # Add circular user profile image on the right side
+            background.paste(profile_img, (1100, 30), profile_img)
 
         background.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
