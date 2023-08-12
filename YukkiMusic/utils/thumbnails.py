@@ -15,7 +15,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     newImage = image.resize((newWidth, newHeight))
     return newImage
 
-async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates", user_profile_image="https://te.legra.ph/file/d2e45c371466b93223e23.jpg"):
+async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates"):
     if os.path.isfile(f"cache/{videoid}.png"):
         return f"cache/{videoid}.png"
 
@@ -57,22 +57,22 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("assets/font2.ttf", 40)
-        font2 = ImageFont.truetype("assets/font2.ttf", 70)
-        arial = ImageFont.truetype("assets/font2.ttf", 30)
-        name_font = ImageFont.truetype("assets/font.ttf", 30)
+        font_size = int(image1.size[1] * 0.05)  # Calculate font size based on thumbnail height
+        font = ImageFont.truetype("assets/font2.ttf", font_size)
+        font2 = ImageFont.truetype("assets/font2.ttf", font_size + 10)
+        arial = ImageFont.truetype("assets/font2.ttf", int(font_size * 0.75))
         para = textwrap.wrap(title, width=32)
 
         # Placing text info on the left side
         draw.text(
-            (30, 30), f"{bot_username} - {guild_name}", fill="white", font=name_font
+            (30, 30), f"{bot_username} - {guild_name}", fill="white", font=font
         )
 
         # Add "PLAYED" text overlay if is_played is True
         if is_played:
             draw.text(
                 (30, 150),
-                "PLAYED",
+                "YOUR SONG",
                 fill="white",
                 font=font2,
             )
@@ -91,7 +91,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
             if j == 1:
                 j += 1
                 draw.text(
-                    (30, 400 + (j - 1) * 60),
+                    (30, 400 + (j - 1) * int(font_size * 1.5)),
                     f"{line}",
                     fill="white",
                     stroke_width=1,
@@ -101,7 +101,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
             if j == 0:
                 j += 1
                 draw.text(
-                    (30, 340 + (j - 1) * 60),
+                    (30, 340 + (j - 1) * int(font_size * 1.5)),
                     f"{line}",
                     fill="white",
                     stroke_width=1,
@@ -127,18 +127,6 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
             (255, 255, 255),
             font=arial,
         )
-
-        # Load and prepare user profile image (resize to fit within a circle)
-        if user_profile_image:
-            profile_img = Image.open(user_profile_image)
-            profile_img = profile_img.resize((100, 100))  # Resize profile image
-            mask = Image.new("L", profile_img.size, 0)
-            draw_mask = ImageDraw.Draw(mask)
-            draw_mask.ellipse((0, 0, 100, 100), fill=255)  # Create circular mask
-            profile_img.putalpha(mask)
-
-            # Add circular user profile image on the right side hh
-            background.paste(profile_img, (1100, 30), profile_img)
 
         background.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
