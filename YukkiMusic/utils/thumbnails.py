@@ -3,8 +3,7 @@ import re
 import textwrap
 import aiofiles
 import aiohttp
-from PIL import (Image, ImageEnhance, ImageFilter,
-                 ImageFont, ImageOps)
+from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
 from youtubesearchpython.__future__ import VideosSearch
 
 from config import MUSIC_BOT_NAME, YOUTUBE_IMG_URL
@@ -44,14 +43,13 @@ async def gen_thumb(videoid):
         background = image1.filter(filter=ImageFilter.BoxBlur(30))
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
-        
+
         draw = ImageDraw.Draw(background)
         font = ImageFont.truetype("assets/font2.ttf", 40)
-        name_font = ImageFont.truetype("assets/font.ttf", 30)
         para = textwrap.wrap(title, width=32)
 
         draw.text(
-            (5, 5), f"{MUSIC_BOT_NAME}", fill="white", font=name_font
+            (30, 30), f"{MUSIC_BOT_NAME}", fill="white", font=font
         )
 
         for line in para:
@@ -77,7 +75,7 @@ async def gen_thumb(videoid):
 
         draw.text(
             (30, 350),
-            "×━━━━━━━━━━━━━━━━━०━━━━━×",
+            "#━━━━━━━━━━━━━━━━━०━━━━━#",
             fill="white",
             font=font,
         )
