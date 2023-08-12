@@ -9,7 +9,6 @@ from youtubesearchpython.__future__ import VideosSearch
 
 from config import MUSIC_BOT_NAME, YOUTUBE_IMG_URL
 
-
 async def gen_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}.png"):
         return f"cache/{videoid}.png"
@@ -44,15 +43,16 @@ async def gen_thumb(videoid):
         background = image1.filter(filter=ImageFilter.BoxBlur(30))
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
-        
+
+        font_path = "assets/font2.ttf"  # Verify the correct path to font2.ttf
+        font = ImageFont.truetype(font_path, 40)  # Load the font
         draw = ImageDraw.Draw(background)
-        font = ImageFont.truetype("assets/font2.ttf", 40)
-        para = textwrap.wrap(title, width=32)
 
         draw.text(
             (5, 5), f"{MUSIC_BOT_NAME}", fill="white", font=font
         )
 
+        para = textwrap.wrap(title, width=32)
         for line in para:
             draw.text(
                 (30, 150),
