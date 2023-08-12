@@ -137,7 +137,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
             draw_mask.ellipse((0, 0, 100, 100), fill=255)  # Create circular mask
             profile_img.putalpha(mask)
 
-            # Add circular user profile image on the right side
+            # Add circular user profile image on the right side hh
             background.paste(profile_img, (1100, 30), profile_img)
 
         background.save(f"cache/{videoid}.png")
