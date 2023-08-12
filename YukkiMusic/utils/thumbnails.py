@@ -63,21 +63,22 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
         name_font = ImageFont.truetype("assets/font.ttf", 30)
         para = textwrap.wrap(title, width=32)
 
+        # Placing text info on the left side
         draw.text(
-            (5, 5), f"{bot_username} - {guild_name}", fill="white", font=name_font
+            (30, 30), f"{bot_username} - {guild_name}", fill="white", font=name_font
         )
 
         # Add "PLAYED" text overlay if is_played is True
         if is_played:
             draw.text(
-                (580, 50),
+                (30, 150),
                 "PLAYED",
                 fill="white",
                 font=font2,
             )
 
         draw.text(
-            (600, 150),
+            (30, 250),
             "NOW PLAYING",
             fill="white",
             stroke_width=2,
@@ -90,7 +91,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
             if j == 1:
                 j += 1
                 draw.text(
-                    (600, 350 + (j - 1) * 60),
+                    (30, 400 + (j - 1) * 60),
                     f"{line}",
                     fill="white",
                     stroke_width=1,
@@ -100,7 +101,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
             if j == 0:
                 j += 1
                 draw.text(
-                    (600, 290 + (j - 1) * 60),
+                    (30, 340 + (j - 1) * 60),
                     f"{line}",
                     fill="white",
                     stroke_width=1,
@@ -109,19 +110,19 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
                 )
 
         draw.text(
-            (600, 510),
+            (30, 560),
             f"Views : {views[:23]}",
             (255, 255, 255),
             font=arial,
         )
         draw.text(
-            (600, 560),
+            (30, 610),
             f"Duration : {duration[:23]} Mins",
             (255, 255, 255),
             font=arial,
         )
         draw.text(
-            (600, 610),
+            (30, 660),
             f"Channel : {channel}",
             (255, 255, 255),
             font=arial,
