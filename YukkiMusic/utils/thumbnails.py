@@ -38,9 +38,7 @@ async def gen_thumb(videoid):
         thumbnail_image.paste(bot_logo, (10, 10), bot_logo)
 
         bot_name = "Nobara Kugisaki!"  # Replace with your bot's name
-        
-        # Calculate text size using ImageFont's getsize method
-        text_width, text_height = bot_font.getsize(bot_name)
+                
         
         draw = ImageDraw.Draw(thumbnail_image)
         draw.text(((thumbnail_image.width - text_width) // 2, 10 + bot_logo.height + 10),
