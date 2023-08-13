@@ -1,14 +1,17 @@
 import os
-import re
-
 import aiofiles
 import aiohttp
-from PIL import (Image, ImageEnhance, ImageFilter,
-                 ImageFont, ImageOps)
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
 from youtubesearchpython.__future__ import VideosSearch
-
 from config import MUSIC_BOT_NAME
 
+def changeImageSize(maxWidth, maxHeight, image):
+    widthRatio = maxWidth / image.size[0]
+    heightRatio = maxHeight / image.size[1]
+    newWidth = int(widthRatio * image.size[0])
+    newHeight = int(heightRatio * image.size[1])
+    newImage = image.resize((newWidth, newHeight))
+    return newImage
 
 async def gen_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}.png"):
@@ -18,16 +21,6 @@ async def gen_thumb(videoid):
     try:
         results = VideosSearch(url, limit=1)
         for result in (await results.next())["result"]:
-            try:
-                title = result["title"]
-                title = re.sub("\W+", " ", title)
-                title = title.title()
-            except:
-                title = "Unsupported Title"
-            try:
-                duration = result["duration"]
-            except:
-                duration = "Unknown Mins"
             thumbnail = result["thumbnails"][0]["url"].split("?")[0]
 
         async with aiohttp.ClientSession() as session:
@@ -40,19 +33,19 @@ async def gen_thumb(videoid):
                     await f.close()
 
         youtube = Image.open(f"cache/thumb{videoid}.png")
-        image1 = youtube.convert("RGBA")
-        background = image1.filter(filter=ImageFilter.BoxBlur(30))
+        image1 = changeImageSize(1280, 720, youtube)
+        image2 = image1.convert("RGBA")
+        background = image2.filter(filter=ImageFilter.BoxBlur(30))
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
-
-        font_path = "assets/font2.ttf"  # Verify the correct path to font2.ttf
-        font = ImageFont.truetype(font_path, 40)  # Load the font
+        
         draw = ImageDraw.Draw(background)
-
+        name_font = ImageFont.truetype("assets/font.ttf", 30)
+        
         draw.text(
-            (5, 5), f"{MUSIC_BOT_NAME}", fill="white", font=font
+            (5, 5), f"{MUSIC_BOT_NAME}", fill="white", font=name_font
         )
-
+        
         try:
             os.remove(f"cache/thumb{videoid}.png")
         except:
