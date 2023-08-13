@@ -1,7 +1,7 @@
 import os
 import aiofiles
 import aiohttp
-from PIL import Image, ImageFont, ImageOps, ImageDraw
+from PIL import Image, ImageFont, ImageDraw, ImageOps
 from youtubesearchpython.__future__ import VideosSearch
 
 async def gen_thumb(videoid):
@@ -39,8 +39,8 @@ async def gen_thumb(videoid):
 
         bot_name = "Nobara Kugisaki!"  # Replace with your bot's name
         
-        # Calculate text size using the font
-        text_width, text_height = bot_font.getsize(bot_name)
+        # Calculate text size using PIL's getsize method
+        text_width, text_height = thumbnail_image.getsize(bot_name, font=bot_font)
         
         new_image = Image.new("RGBA", (thumbnail_image.width, thumbnail_image.height), (255, 255, 255, 0))
         new_image.paste(thumbnail_image, (0, 0))
@@ -52,6 +52,6 @@ async def gen_thumb(videoid):
         new_image.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
     except Exception as e:
-        print(f"An exception occurred: {e}")    
+        print(f"An exception occurred: {e}")
         return YOUTUBE_IMG_URL
 ##
