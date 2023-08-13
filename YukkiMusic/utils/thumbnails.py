@@ -1,7 +1,7 @@
 import os
 import aiofiles
 import aiohttp
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 from youtubesearchpython.__future__ import VideosSearch
 
 async def gen_thumb(videoid):
@@ -22,16 +22,16 @@ async def gen_thumb(videoid):
                     )
                     await f.write(await resp.read())
                     await f.close()
-                    
 
-
-
-                    # Load bot logo image and font
-                    bot_logo = Image.open("assets/Nobara.jpg").convert("RGBA")  # Convert to RGBA mode
-                    bot_font = ImageFont.truetype("assets/font.ttf", 20)  # Specify the correct font file
-
-
-
+        # Load bot logo image and font
+        bot_logo = Image.open("assets/Nobara.jpg").convert("RGBA")  # Convert to RGBA mode
+        bot_logo = ImageOps.fit(bot_logo, (100, 100), method=0, bleed=0.0, centering=(0.5, 0.5))  # Resize and crop to a circular shape
+        mask = Image.new("L", bot_logo.size, 0)
+        draw = ImageDraw.Draw(mask)
+        draw.ellipse((0, 0) + bot_logo.size, fill=255)
+        bot_logo.putalpha(mask)
+        
+        bot_font = ImageFont.truetype("assets/font.ttf", 20)  # Specify the correct font file
 
         # Open and process thumbnail image
         thumbnail_image = Image.open(f"cache/thumb{videoid}.png")
