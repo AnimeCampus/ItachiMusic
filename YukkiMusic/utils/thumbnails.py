@@ -3,7 +3,6 @@ import aiofiles
 import aiohttp
 from PIL import Image, ImageFont, ImageDraw, ImageOps
 from youtubesearchpython.__future__ import VideosSearch
-import textwrap  # Import the textwrap module
 
 async def gen_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}.png"):
@@ -40,23 +39,17 @@ async def gen_thumb(videoid):
 
         bot_name = "Nobara Kugisaki!"  # Replace with your bot's name
         
-        # Create a drawing context for the thumbnail image
+        # Calculate text size using ImageFont's getsize method
+        text_width, text_height = bot_font.getsize(bot_name)
+        
         draw = ImageDraw.Draw(thumbnail_image)
-        
-        # Wrap the bot's name using textwrap
-        wrapped_name = "\n".join(textwrap.wrap(bot_name, width=10))  # Adjust the width as needed
-        
-        # Calculate text size using ImageDraw's textsize method
-        text_width, text_height = draw.textsize(wrapped_name, font=bot_font)
-        
         draw.text(((thumbnail_image.width - text_width) // 2, 10 + bot_logo.height + 10),
-                  wrapped_name, fill="white", font=bot_font)
+                  bot_name, fill="white", font=bot_font)
 
         thumbnail_image.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
     except Exception as e:
         print(f"An exception occurred: {e}")
-     #   return "https://example.com/default_thumbnail.jpg"  # Replace with your default/fallback image URL
-
+   #     return "https://example.com/default_thumbnail.jpg"  # Replace with your default/fallback image URL
         return YOUTUBE_IMG_URL
 ##
