@@ -1,7 +1,7 @@
 import os
 import aiofiles
 import aiohttp
-from PIL import Image, ImageFont, ImageOps
+from PIL import Image, ImageFont, ImageOps, ImageDraw
 from youtubesearchpython.__future__ import VideosSearch
 
 async def gen_thumb(videoid):
