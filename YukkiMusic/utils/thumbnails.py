@@ -25,15 +25,15 @@ async def gen_thumb(videoid):
                     await f.close()
 
         # Load bot logo image and font
-        bot_logo = Image.open("bot_logo.png")
-        bot_font = ImageFont.truetype("bot_font.ttf", 20)  # Specify the correct font file
+        bot_logo = Image.open("assets/Nobara.jpg")
+        bot_font = ImageFont.truetype("assets/font.ttf", 20)  # Specify the correct font file
 
         # Open and process thumbnail image
         thumbnail_image = Image.open(f"cache/thumb{videoid}.png")
         thumbnail_image.paste(bot_logo, (10, 10), bot_logo)
 
         draw = ImageDraw.Draw(thumbnail_image)
-        bot_name = "Your Bot Name"  # Replace with your bot's name
+        bot_name = "Nobara Kugisaki!"  # Replace with your bot's name
         text_width, text_height = draw.textsize(bot_name, font=bot_font)
         draw.text(((thumbnail_image.width - text_width) // 2, 10 + bot_logo.height + 10),
                   bot_name, fill="white", font=bot_font)
