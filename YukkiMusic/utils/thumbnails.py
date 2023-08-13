@@ -1,5 +1,4 @@
 import os
-imporimport os
 import aiofiles
 import aiohttp
 from PIL import Image, ImageDraw, ImageFont
