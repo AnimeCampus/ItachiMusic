@@ -22,10 +22,16 @@ async def gen_thumb(videoid):
                     )
                     await f.write(await resp.read())
                     await f.close()
+                    
 
-        # Load bot logo image and font
-        bot_logo = Image.open("assets/Nobara.jpg")
-        bot_font = ImageFont.truetype("assets/font.ttf", 20)  # Specify the correct font file
+
+
+                    # Load bot logo image and font
+                    bot_logo = Image.open("assets/Nobara.jpg").convert("RGBA")  # Convert to RGBA mode
+                    bot_font = ImageFont.truetype("assets/font.ttf", 20)  # Specify the correct font file
+
+
+
 
         # Open and process thumbnail image
         thumbnail_image = Image.open(f"cache/thumb{videoid}.png")
