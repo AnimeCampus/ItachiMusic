@@ -48,3 +48,4 @@ async def gen_thumb(videoid):
     except Exception as e:
         print(f"An exception occurred: {e}")
         return YOUTUBE_IMG_URL
+##
