@@ -39,5 +39,6 @@ async def gen_thumb(videoid):
 
         thumbnail_image.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
-    except Exception:
-        return YOUTUBE_IMG_URL  # Handle the exception accordingly 
+    except Exception as e:
+        print(f"An exception occurred: {e}")
+        return YOUTUBE_IMG_URL
