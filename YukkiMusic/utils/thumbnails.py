@@ -1,8 +1,24 @@
 import os
+import re
+import textwrap
+
 import aiofiles
 import aiohttp
-from PIL import Image, ImageFont, ImageDraw, ImageOps
+from PIL import (Image, ImageDraw, ImageEnhance, ImageFilter,
+                 ImageFont, ImageOps)
 from youtubesearchpython.__future__ import VideosSearch
+
+from config import MUSIC_BOT_NAME, YOUTUBE_IMG_URL
+
+
+def changeImageSize(maxWidth, maxHeight, image):
+    widthRatio = maxWidth / image.size[0]
+    heightRatio = maxHeight / image.size[1]
+    newWidth = int(widthRatio * image.size[0])
+    newHeight = int(heightRatio * image.size[1])
+    newImage = image.resize((newWidth, newHeight))
+    return newImage
+
 
 async def gen_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}.png"):
@@ -12,7 +28,25 @@ async def gen_thumb(videoid):
     try:
         results = VideosSearch(url, limit=1)
         for result in (await results.next())["result"]:
+            try:
+                title = result["title"]
+                title = re.sub("\W+", " ", title)
+                title = title.title()
+            except:
+                title = "Unsupported Title"
+            try:
+                duration = result["duration"]
+            except:
+                duration = "Unknown Mins"
             thumbnail = result["thumbnails"][0]["url"].split("?")[0]
+            try:
+                views = result["viewCount"]["short"]
+            except:
+                views = "Unknown Views"
+            try:
+                channel = result["channel"]["name"]
+            except:
+                channel = "Unknown Channel"
 
         async with aiohttp.ClientSession() as session:
             async with session.get(thumbnail) as resp:
@@ -23,31 +57,85 @@ async def gen_thumb(videoid):
                     await f.write(await resp.read())
                     await f.close()
 
-        # Load bot logo image and font
-        bot_logo = Image.open("assets/Nobara.jpg").convert("RGBA")  # Convert to RGBA mode
-        bot_logo = ImageOps.fit(bot_logo, (100, 100), method=0, bleed=0.0, centering=(0.5, 0.5))  # Resize and crop to a circular shape
-        mask = Image.new("L", bot_logo.size, 0)
-        draw = ImageDraw.Draw(mask)
-        draw.ellipse((0, 0) + bot_logo.size, fill=255)
-        bot_logo.putalpha(mask)
-        
-        bot_font = ImageFont.truetype("assets/font.ttf", 20)  # Specify the correct font file
+        youtube = Image.open(f"cache/thumb{videoid}.png")
+        image1 = changeImageSize(1280, 720, youtube)
+        image2 = image1.convert("RGBA")
+        background = image2.filter(filter=ImageFilter.BoxBlur(30))
+        enhancer = ImageEnhance.Brightness(background)
+        background = enhancer.enhance(0.6)
+        Xcenter = youtube.width / 2
+        Ycenter = youtube.height / 2
+        x1 = Xcenter - 250
+        y1 = Ycenter - 250
+        x2 = Xcenter + 250
+        y2 = Ycenter + 250
+        logo = youtube.crop((x1, y1, x2, y2))
+        logo.thumbnail((520, 520), Image.ANTIALIAS)
+        logo = ImageOps.expand(logo, border=15, fill="white")
+        background.paste(logo, (50, 100))
+        draw = ImageDraw.Draw(background)
+        font = ImageFont.truetype("assets/font2.ttf", 40)
+        font2 = ImageFont.truetype("assets/font2.ttf", 70)
+        arial = ImageFont.truetype("assets/font2.ttf", 30)
+        name_font = ImageFont.truetype("assets/font.ttf", 30)
+        para = textwrap.wrap(title, width=32)
+        j = 0
+        draw.text(
+            (5, 5), f"{MUSIC_BOT_NAME}", fill="white", font=name_font
+        )
+        draw.text(
+            (600, 150),
+            "NOW PLAYING",
+            fill="white",
+            stroke_width=2,
+            stroke_fill="white",
+            font=font2,
+        )
+        for line in para:
+            if j == 1:
+                j += 1
+                draw.text(
+                    (600, 340),
+                    f"{line}",
+                    fill="white",
+                    stroke_width=1,
+                    stroke_fill="white",
+                    font=font,
+                )
+            if j == 0:
+                j += 1
+                draw.text(
+                    (600, 280),
+                    f"{line}",
+                    fill="white",
+                    stroke_width=1,
+                    stroke_fill="white",
+                    font=font,
+                )
 
-        # Open and process thumbnail image
-        thumbnail_image = Image.open(f"cache/thumb{videoid}.png")
-        thumbnail_image.paste(bot_logo, (10, 10), bot_logo)
-
-        bot_name = "Nobara Kugisaki!"  # Replace with your bot's name
-                
-        
-        draw = ImageDraw.Draw(thumbnail_image)
-        draw.text(((thumbnail_image.width - text_width) // 2, 10 + bot_logo.height + 10),
-                  bot_name, fill="white", font=bot_font)
-
-        thumbnail_image.save(f"cache/{videoid}.png")
+        draw.text(
+            (600, 450),
+            f"Views : {views[:23]}",
+            (255, 255, 255),
+            font=arial,
+        )
+        draw.text(
+            (600, 500),
+            f"Duration : {duration[:23]} Mins",
+            (255, 255, 255),
+            font=arial,
+        )
+        draw.text(
+            (600, 550),
+            f"Channel : {channel}",
+            (255, 255, 255),
+            font=arial,
+        )
+        try:
+            os.remove(f"cache/thumb{videoid}.png")
+        except:
+            pass
+        background.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
-    except Exception as e:
-        print(f"An exception occurred: {e}")
-   #     return "https://example.com/default_thumbnail.jpg"  # Replace with your default/fallback image URL
+    except Exception:
         return YOUTUBE_IMG_URL
-##
