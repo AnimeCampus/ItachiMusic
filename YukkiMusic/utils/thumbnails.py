@@ -1,13 +1,9 @@
 import os
-import re
-import textwrap
+imporimport os
 import aiofiles
 import aiohttp
-from PIL import (Image, ImageEnhance, ImageFilter,
-                 ImageFont, ImageOps)
+from PIL import Image, ImageDraw, ImageFont
 from youtubesearchpython.__future__ import VideosSearch
-
-from config import MUSIC_BOT_NAME, YOUTUBE_IMG_URL
 
 async def gen_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}.png"):
@@ -17,16 +13,6 @@ async def gen_thumb(videoid):
     try:
         results = VideosSearch(url, limit=1)
         for result in (await results.next())["result"]:
-            try:
-                title = result["title"]
-                title = re.sub("\W+", " ", title)
-                title = title.title()
-            except:
-                title = "Unsupported Title"
-            try:
-                duration = result["duration"]
-            except:
-                duration = "Unknown Mins"
             thumbnail = result["thumbnails"][0]["url"].split("?")[0]
 
         async with aiohttp.ClientSession() as session:
@@ -38,50 +24,21 @@ async def gen_thumb(videoid):
                     await f.write(await resp.read())
                     await f.close()
 
-        youtube = Image.open(f"cache/thumb{videoid}.png")
-        image1 = youtube.convert("RGBA")
-        background = image1.filter(filter=ImageFilter.BoxBlur(30))
-        enhancer = ImageEnhance.Brightness(background)
-        background = enhancer.enhance(0.6)
+        # Load bot logo image and font
+        bot_logo = Image.open("bot_logo.png")
+        bot_font = ImageFont.truetype("bot_font.ttf", 20)  # Specify the correct font file
 
-        font_path = "assets/font2.ttf"  # Verify the correct path to font2.ttf
-        font = ImageFont.truetype(font_path, 40)  # Load the font
-        draw = ImageDraw.Draw(background)
+        # Open and process thumbnail image
+        thumbnail_image = Image.open(f"cache/thumb{videoid}.png")
+        thumbnail_image.paste(bot_logo, (10, 10), bot_logo)
 
-        draw.text(
-            (5, 5), f"{MUSIC_BOT_NAME}", fill="white", font=font
-        )
+        draw = ImageDraw.Draw(thumbnail_image)
+        bot_name = "Your Bot Name"  # Replace with your bot's name
+        text_width, text_height = draw.textsize(bot_name, font=bot_font)
+        draw.text(((thumbnail_image.width - text_width) // 2, 10 + bot_logo.height + 10),
+                  bot_name, fill="white", font=bot_font)
 
-        para = textwrap.wrap(title, width=32)
-        for line in para:
-            draw.text(
-                (30, 150),
-                "NOW PLAYING:",
-                fill="white",
-                font=font,
-            )
-            draw.text(
-                (30, 200),
-                f"{line}",
-                fill="white",
-                font=font,
-            )
-
-        draw.text(
-            (30, 280),
-            f"Duration: {duration[:23]} Mins",
-            (255, 255, 255),
-            font=font,
-        )
-
-        draw.text(
-            (30, 350),
-            "#━━━━━━━━━━━━━━━━━०━━━━━#",
-            fill="white",
-            font=font,
-        )
-
-        background.save(f"cache/{videoid}.png")
+        thumbnail_image.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
     except Exception:
-        return YOUTUBE_IMG_URL
+        return YOUTUBE_IMG_URL  # Handle the exception accordingly 
