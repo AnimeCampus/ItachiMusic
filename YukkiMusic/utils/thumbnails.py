@@ -15,7 +15,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     newImage = image.resize((newWidth, newHeight))
     return newImage
 
-async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates", user_profile_image="assets/Nobara.jpg"):
+async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates"):
     if os.path.isfile(f"cache/{videoid}.png"):
         return f"cache/{videoid}.png"
 
@@ -65,7 +65,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
 
         draw.text((30, 30), f"{bot_username} - {guild_name}", fill="white", font=name_font)
         if is_played:
-            draw.text((30, 150), "YOUR QUERY", fill="white", font=font2)
+            draw.text((30, 150), "PLAYED", fill="white", font=font2)
         draw.text((30, 250), "NOW PLAYING", fill="white", stroke_width=2, stroke_fill="white", font=font2)
 
         j = 0
@@ -79,26 +79,25 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
 
         draw.text((30, 560), f"Views : {views[:23]}", (255, 255, 255), font=arial)
         draw.text((30, 610), f"Duration : {duration[:23]} Mins", (255, 255, 255), font=arial)
-        draw.text((30, 660), f"Channel : {channel}", (255, 255, 255), font=arial)
+        draw.text((30, 660), f"Channel : {channel}", (255, 255, 255), font=arial)        
 
-        if user_profile_image:
-            profile_img = Image.open(user_profile_image)
-            profile_img = profile_img.resize((100, 100))
-            mask = Image.new("L", profile_img.size, 0)
-            draw_mask = ImageDraw.Draw(mask)
-            draw_mask.ellipse((0, 0, 100, 100), fill=255)
-            profile_img.putalpha(mask)
-            background.paste(profile_img, (1100, 30), profile_img)
-
-        telegraph_img = Image.open("assets/Nobara.jpg")  # Replace with actual path
-        telegraph_img = telegraph_img.resize((150, 150))  # Resize Telegraph image
+        telegraph_img = Image.open("assets/Nobara.jpg")
+        telegraph_img = telegraph_img.resize((350, 350))
         telegraph_mask = Image.new("L", telegraph_img.size, 0)
         telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
-        telegraph_draw_mask.ellipse((0, 0, 150, 150), fill=255)  # Create circular mask
-        telegraph_img.putalpha(telegraph_mask)
+        telegraph_draw_mask.ellipse((0, 0, 350, 350), fill=255)
+        
+        border_width = 10
+        border_color = (255, 255, 255)
+        bordered_telegraph_img = Image.new("RGBA", (350 + 2 * border_width, 350 + 2 * border_width), border_color)
+        bordered_telegraph_img.paste(telegraph_img, (border_width, border_width), telegraph_mask) # this area is been traced by frag
+        
+        image_width, image_height = background.size
+        telegraph_width, telegraph_height = bordered_telegraph_img.size
+        x_pos = image_width - telegraph_width - 30
+        y_pos = (image_height - telegraph_height) // 2
 
-        # Add circular Telegraph image on the right side
-        background.paste(telegraph_img, (1100, 280), telegraph_img)
+        background.paste(bordered_telegraph_img, (x_pos, y_pos), bordered_telegraph_img)
 
         background.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
