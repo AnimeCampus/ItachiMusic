@@ -15,7 +15,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     newImage = image.resize((newWidth, newHeight))
     return newImage
 
-async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates", user_profile_image="https://graph.org/file/80a46dfbbc510295212ae.jpg"):
+async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates", user_profile_image="assets/Nobara.jpg"):
     if os.path.isfile(f"cache/{videoid}.png"):
         return f"cache/{videoid}.png"
 
@@ -90,7 +90,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
             profile_img.putalpha(mask)
             background.paste(profile_img, (1100, 30), profile_img)
 
-        telegraph_img = Image.open("path_to_your_telegraph_image.png")
+        telegraph_img = Image.open("assets/Nobara.jpg")
         telegraph_img = telegraph_img.resize((100, 100))
         telegraph_mask = Image.new("L", telegraph_img.size, 0)
         telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
