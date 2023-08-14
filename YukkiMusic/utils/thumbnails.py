@@ -65,7 +65,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
 
         draw.text((30, 30), f"{bot_username} - {guild_name}", fill="white", font=name_font)
         if is_played:
-            draw.text((30, 150), "PLAYED", fill="white", font=font2)
+            draw.text((30, 150), "YOUR QUERY", fill="white", font=font2)
         draw.text((30, 250), "NOW PLAYING", fill="white", stroke_width=2, stroke_fill="white", font=font2)
 
         j = 0
@@ -90,13 +90,15 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
             profile_img.putalpha(mask)
             background.paste(profile_img, (1100, 30), profile_img)
 
-        telegraph_img = Image.open("assets/Nobara.jpg")
-        telegraph_img = telegraph_img.resize((100, 100))
+        telegraph_img = Image.open("assets/Nobara.jpg")  # Replace with actual path
+        telegraph_img = telegraph_img.resize((150, 150))  # Resize Telegraph image
         telegraph_mask = Image.new("L", telegraph_img.size, 0)
         telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
-        telegraph_draw_mask.ellipse((0, 0, 100, 100), fill=255)
+        telegraph_draw_mask.ellipse((0, 0, 150, 150), fill=255)  # Create circular mask
         telegraph_img.putalpha(telegraph_mask)
-        background.paste(telegraph_img, (1100, 150), telegraph_img)
+
+        # Add circular Telegraph image on the right side
+        background.paste(telegraph_img, (1100, 280), telegraph_img)
 
         background.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
