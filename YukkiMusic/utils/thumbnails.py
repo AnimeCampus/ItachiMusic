@@ -87,18 +87,13 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
         telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
         telegraph_draw_mask.ellipse((0, 0, 350, 350), fill=255)
 
-        border_width = 10
-        border_color = (255, 255, 255)
-        bordered_telegraph_img = Image.new("RGBA", (350 + 2 * border_width, 350 + 2 * border_width), (0, 0, 0, 0))
-        bordered_telegraph_img.paste(telegraph_img, (border_width, border_width), telegraph_mask)
+        telegraph_img = Image.open("assets/IMG_20230815_201922_161.jpg")
+        telegraph_img = telegraph_img.resize((350, 350))
+        telegraph_mask = Image.new("L", telegraph_img.size, 0)
+        telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
+        telegraph_draw_mask.ellipse((0, 0, 360, 360), fill=255)
 
-        image_width, image_height = background.size
-        telegraph_width, telegraph_height = bordered_telegraph_img.size
-        x_pos = image_width - telegraph_width - 30
-        y_pos = (image_height - telegraph_height) // 2
-
-        background.paste(bordered_telegraph_img, (x_pos, y_pos), bordered_telegraph_img)
-
+        
         background.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
     except Exception:
