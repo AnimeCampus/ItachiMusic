@@ -63,7 +63,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
         name_font = ImageFont.truetype("assets/font.ttf", 30)
         para = textwrap.wrap(title, width=32)
 
-        draw.text((30, 30), f"{bot_username} - {guild_name}", fill="white", font=name_font)
+        draw.text((30, 30), f"{bot_username} -:- {guild_name}", fill="white", font=name_font)
         if is_played:
             draw.text((30, 150), "YOUR QUERY", fill="white", font=font2)
         draw.text((30, 250), "NOW PLAYING", fill="white", stroke_width=2, stroke_fill="white", font=font2)
@@ -86,12 +86,12 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
         telegraph_mask = Image.new("L", telegraph_img.size, 0)
         telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
         telegraph_draw_mask.ellipse((0, 0, 350, 350), fill=255)
-
+        
         border_width = 10
         border_color = (255, 255, 255)
-        bordered_telegraph_img = Image.new("RGBA", (350 + 2 * border_width, 350 + 2 * border_width), (0, 0, 0, 0))
-        bordered_telegraph_img.paste(telegraph_img, (border_width, border_width), telegraph_mask) #frag glanced here 
-
+        bordered_telegraph_img = Image.new("RGBA", (350 + 2 * border_width, 350 + 2 * border_width), border_color)
+        bordered_telegraph_img.paste(telegraph_img, (border_width, border_width), telegraph_mask) #frag was been here...
+        
         image_width, image_height = background.size
         telegraph_width, telegraph_height = bordered_telegraph_img.size
         x_pos = image_width - telegraph_width - 30
