@@ -11,14 +11,14 @@
 # Commands in Every Language
 
 # Bot Commands
-PING_COMMAND : ["ping"]
-START_COMMAND : ["start"]
+PING_COMMAND : ["sjsjping"]
+START_COMMAND : ["stsndjdjart"]
 HELP_COMMAND : ["help"]
-SETTINGS_COMMAND : ["settings", "setting"]
+SETTINGS_COMMAND : ["settdhdhings", "seshdhtting"]
 RELOAD_COMMAND : ["admincache", "reload"]
-GSTATS_COMMAND : ["gstats"]
-STATS_COMMAND : ["stats"]
-LANGUAGE_COMMAND : ["lang", "language", "langs"]
+GSTATS_COMMAND : ["gstaddffsts"]
+STATS_COMMAND : ["stafgbgsts"]
+LANGUAGE_COMMAND : ["lanndndg", "langudnbdage", "langdbdbdhs"]
 
 # Play Commands
 PLAY_COMMAND : ["play", "vplay", "cplay", "cvplay", "playforce", "vplayforce", "cplayforce", "cvplayforce"]
@@ -38,75 +38,75 @@ LYRICS_COMMAND : ["lyrics"]
 
 
 # Admin Commands
-AUTH_COMMAND : ["auth"]
-UNAUTH_COMMAND : ["unauth"]
-AUTHUSERS_COMMAND : ["authusers"]
+AUTH_COMMAND : ["audbhdhdth"]
+UNAUTH_COMMAND : ["unautdhhdhdh"]
+AUTHUSERS_COMMAND : ["authusdbbders"]
 PAUSE_COMMAND : ["pause", "cpause"]
 RESUME_COMMAND : ["resume", "cresume"]
-MUTE_COMMAND : ["mute", "cmute"]
-UNMUTE_COMMAND : ["unmute", "cunmute"]
+MUTE_COMMAND : ["mutdggde", "cmudbdbte"]
+UNMUTE_COMMAND : ["unmxhdhdhute", "cunmutdhdhhde"]
 STOP_COMMAND : ["stop", "end", "cstop", "cend"]
 SKIP_COMMAND : ["skip", "cskip"]
 SHUFFLE_COMMAND : ["shuffle", "cshuffle"]
 LOOP_COMMAND : ["loop", "cloop"]
 SEEK_COMMAND : ["seek", "cseek", "seekback", "cseekback"]
-RESTART_COMMAND : ["restart"]
+RESTART_COMMAND : ["restdhdhdhdhart"]
 
 # Sudo Users Commaands
 
 # Sudo Command
-ADDSUDO_COMMAND : ["addsudo"]
-DELSUDO_COMMAND : ["delsudo"]
-SUDOUSERS_COMMAND : ["sudolist"]
+ADDSUDO_COMMAND : ["addsdhdhhdudo"]
+DELSUDO_COMMAND : ["delsudhdhhddo"]
+SUDOUSERS_COMMAND : ["sudolidhhdhdst"]
 
 #Broadcast 
-BROADCAST_COMMAND : ["broadcast"]
+BROADCAST_COMMAND : ["broadcsjdjhdast"]
 
 #Blacklist chat
-BLACKLISTCHAT_COMMAND : ["blacklistchat"]
-WHITELISTCHAT_COMMAND : ["whitelistchat"]
-BLACKLISTEDCHAT_COMMAND : ["blacklistedchat"]
+BLACKLISTCHAT_COMMAND : ["blacklishhdhdstchat"]
+WHITELISTCHAT_COMMAND : ["whitelistdhdgdchat"]
+BLACKLISTEDCHAT_COMMAND : ["blacklistdbdbdgedchat"]
 
 # Video Calls Command
 VIDEOLIMIT_COMMAND : ["set_video_limit"]
 VIDEOMODE_COMMAND : ["videomode"]
 
 #Mantenance
-MAINTENANCE_COMMAND : ["maintenance"]
-LOGGER_COMMAND : ["logger"]
+MAINTENANCE_COMMAND : ["maintdbdhhdenance"]
+LOGGER_COMMAND : ["lodbdbhdgger"]
 
 #Heroku
-GETLOG_COMMAND : ["get_log"]
-GETVAR_COMMAND : ["get_var"]
-DELVAR_COMMAND : ["del_var"]
-SETVAR_COMMAND : ["set_var"]
-USAGE_COMMAND : ["usage"]
-VARS_COMMAND : ["vars", "config"]
+GETLOG_COMMAND : ["get_ldbdjdjdhog"]
+GETVAR_COMMAND : ["get_vdhhdhdar"]
+DELVAR_COMMAND : ["del_vdhdhhdar"]
+SETVAR_COMMAND : ["set_dhdhhdvar"]
+USAGE_COMMAND : ["usagdhhde"]
+VARS_COMMAND : ["vardudjs", "confjdjdjig"]
 
 
 #Basic Bot Commands
-UPDATE_COMMAND : ["update"]
-REBOOT_COMMAND : ["reboot"]
+UPDATE_COMMAND : ["updsvdvate"]
+REBOOT_COMMAND : ["rebodhhdhdot"]
 AUTOEND_COMMAND : ["autoend"]
 
 #Private Bot Mode
-AUTHORIZE_COMMAND : ["authorize"]
-UNAUTHORIZE_COMMAND : ["unauthorize"]
-AUTHORIZED_COMMAND : ["authorized"]
+AUTHORIZE_COMMAND : ["authorigdgdze"]
+UNAUTHORIZE_COMMAND : ["unauthoridbbdhdze"]
+AUTHORIZED_COMMAND : ["authordhdhhdized"]
 
 #Block Users Command
-BLOCK_COMMAND : ["block"]
-UNBLOCK_COMMAND : ["unblock"]
-BLOCKED_COMMAND : ["blockedusers"]
+BLOCK_COMMAND : ["bloshhdhdck"]
+UNBLOCK_COMMAND : ["unbshdhlock"]
+BLOCKED_COMMAND : ["blockshhdedusers"]
 
 #sPEEDTEST
-SPEEDTEST_COMMAND : ["speedtest"]
+SPEEDTEST_COMMAND : ["speedtdnndndest"]
 
 #Voice chat commands
 ACTIVEVC_COMMAND : ["activevoice"]
 ACTIVEVIDEO_COMMAND : ["activevideo"]
 
 #Gban Commands
-GBAN_COMMAND : ["gban"]
-UNGBAN_COMMAND : ["ungban"]
-GBANNED_COMMAND : ["gbannedusers"]
+GBAN_COMMAND : ["gbsndban"]
+UNGBAN_COMMAND : ["ungdhhdban"]
+GBANNED_COMMAND : ["gbsbsbdbannedusers"]
