@@ -1,12 +1,3 @@
-#
-# Copyright (C) 2021-2022 by TeamYukki@Github, < https://github.com/TeamYukki >.
-#
-# This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
-# and is released under the "GNU v3.0 License Agreement".
-# Please see < https://github.com/TeamYukki/YukkiMusicBot/blob/master/LICENSE >
-#
-# All rights reserved.
-
 import re
 import sys
 from os import getenv
@@ -17,18 +8,18 @@ from pyrogram import filters
 load_dotenv()
 
 # Get it from my.telegram.org
-API_ID = int(getenv("API_ID", "19099900"))
-API_HASH = getenv("API_HASH","2b445de78e5baf012a0793e60bd4fbf5")
+API_ID = int(getenv("API_ID", "16743442"))
+API_HASH = getenv("API_HASH","12bbd720f4097ba7713c5e40a11dfd2a")
 
 ## Get it from @Botfather in Telegram.
-BOT_TOKEN = getenv("BOT_TOKEN", "6295491451:AAGLNLR57TkbVKgxj4XBR7QHBMqJSvicc_c")
+BOT_TOKEN = getenv("BOT_TOKEN", "5520008350:AAHCPF2KQaRs2Y2n9OcfuiGEFesd1l15yMw")
 
 # Database to save your chats and stats... Get MongoDB:-  https://telegra.ph/How-To-get-Mongodb-URI-04-06
 MONGO_DB_URI = getenv("MONGO_DB_URI", "mongodb+srv://sonu55:sonu55@cluster0.vqztrvk.mongodb.net/?retryWrites=true&w=majority")
 
 # Custom max audio(music) duration for voice chat. set DURATION_LIMIT in variables with your own time(mins), Default to 60 mins.
 DURATION_LIMIT_MIN = int(
-    getenv("DURATION_LIMIT", "120")
+    getenv("DURATION_LIMIT", "180")
 )  # Remember to give value in Minutes
 
 # Duration Limit for downloading Songs in MP3 or MP4 format from bot
@@ -37,15 +28,13 @@ SONG_DOWNLOAD_DURATION = int(
 )  # Remember to give value in Minutes
 
 # You'll need a Private Group ID for this.
-LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", "-1001661321806"))
+LOG_GROUP_ID = int(getenv("LOG_GROUP_ID", "-1001575132417"))
 
 # A name for your Music bot.
-MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME","Nobara Kugisaki!")
+MUSIC_BOT_NAME = getenv("MUSIC_BOT_NAME","Itachi Uchiha")
 
 # Your User ID.
-OWNER_ID = list(
-    map(int, getenv("OWNER_ID", "6198858059").split())
-)  # Input type must be interger
+OWNER_ID = list(map(int, getenv("OWNER_ID", "6198858059").split()))  # Input type must be interger
 
 # Get it from http://dashboard.heroku.com/account
 HEROKU_API_KEY = getenv("HEROKU_API_KEY")
@@ -56,7 +45,7 @@ HEROKU_APP_NAME = getenv("HEROKU_APP_NAME")
 # For customized or modified Repository
 UPSTREAM_REPO = getenv(
     "UPSTREAM_REPO",
-    "https://github.com/PyroUserBot/YukkiMusicBot1",
+    "https://github.com/PyroUserBot/ItachiMusic",
 )
 UPSTREAM_BRANCH = getenv("UPSTREAM_BRANCH", "master")
 
@@ -65,11 +54,9 @@ GIT_TOKEN = getenv("GIT_TOKEN", None)
 
 # Only  Links formats are  accepted for this Var value.
 SUPPORT_CHANNEL = getenv(
-    "SUPPORT_CHANNEL", "https://t.me/JujutsuHighBotUpdates"
-)  # Example:- https://t.me/TheYukki
-SUPPORT_GROUP = getenv(
-    "SUPPORT_GROUP", "https://t.me/JHBots"
-)  # Example:- https://t.me/YukkiSupport
+    "SUPPORT_CHANNEL", None
+)  # Example:- https://t.me/HydraXSupport
+SUPPORT_GROUP = getenv("SUPPORT_GROUP", None)  # Example:- https://t.me/HydraXSupport
 
 # Set it in True if you want to leave your assistant after a certain amount of time. [Set time via AUTO_LEAVE_ASSISTANT_TIME]
 AUTO_LEAVING_ASSISTANT = getenv("AUTO_LEAVING_ASSISTANT", "True")
@@ -103,11 +90,11 @@ TELEGRAM_DOWNLOAD_EDIT_SLEEP = int(getenv("TELEGRAM_EDIT_SLEEP", "5"))
 GITHUB_REPO = getenv("GITHUB_REPO", None)
 
 # Spotify Client.. Get it from https://developer.spotify.com/dashboard
-SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", "2eab920f2b0f42d6921c6d8ab5a2928c")
-SPOTIFY_CLIENT_SECRET = getenv("SPOTIFY_CLIENT_SECRET", "0fb19d8d29f942fc87b85b688a48263e")
+SPOTIFY_CLIENT_ID = getenv("SPOTIFY_CLIENT_ID", None)
+SPOTIFY_CLIENT_SECRET = getenv("SPOTIFY_CLIENT_SECRET", None)
 
 # Maximum number of video calls allowed on bot. You can later set it via /set_video_limit on telegram
-VIDEO_STREAM_LIMIT = int(getenv("VIDEO_STREAM_LIMIT", "5"))
+VIDEO_STREAM_LIMIT = int(getenv("VIDEO_STREAM_LIMIT", "3"))
 
 # Maximum Limit Allowed for users to save playlists on bot's server
 SERVER_PLAYLIST_LIMIT = int(getenv("SERVER_PLAYLIST_LIMIT", "30"))
@@ -137,27 +124,19 @@ TG_VIDEO_FILESIZE_LIMIT = int(
 # Refer to https://i.postimg.cc/Bbg3LQTG/image.png
 SET_CMDS = getenv("SET_CMDS", False)
 
-# You'll need a Pyrogram String Session for these vars. Generate String from our session generator bot @YukkiStringBot
-STRING1 = getenv("STRING_SESSION", "BQC2m-ZDdKVdvXhEzNvexhcZhk7rdxpVQKXrC5Oq3L4n2OkzYOmwnNB3UAkUbnpmumQ8bjBB1EoRr4EiC3BN-aQ82mrnksNeKB8evxdnonjtCHza9YPh24rn56qvUdCfYOBiW8_BE1ki0i8zW1IJ3HqdtYKMh4woeD64Z1sI9lj5MJGF3kCzk_02Mcs0XrDnvM6-dV7dqvhfP6m231rAzXR46GAkMx9R7PrzStfN7DCeALBDgE3UqqysuZ_pjFZ4cucS7uE71wbwYzbHStcOwOSUgXIa9fsrA2w9-R9XjgOm8GpOYuqVScuQBXP25hd-DT5lyQJYub1nbAqAAM07ptnOAAAAAWVYVzQA")
+# You'll need a Pyrogram String Session for these vars. Generate String from our session generator bot @HydraStringBot
+STRING1 = getenv("STRING_SESSION", "BQCc56ifly5nzQC6LB3WCsBK2CByCgGSsBk9ij04XnlR-L9JxYxKMaejAusbzRTBk9ZL2D4pJaoB7SR5oPGRbMA-ORt2fP3R-GwJBgGH_Rk75lDJQJqAGP-DcZQ6n50ev34XTfyfKgYW5PJvwzxvUBO00wr58JVW83T_pbqLQYB7QrPmbyV1SAq_mgLYHM4cSJQV_5z8AZ98AZvo2pNLPzI9Mx7TASbWPaDHUaCflqdUuvZDW8z-TCZ6w_y7yd6hQWUCVBpdY5JFfuEYdr16lCB1V3PyEOOW8Vh_iiX4oBhrdxXe-3NDESrH1HD0-qoprD23c8Sc64ykuBi2I_oXdNU3AAAAAXd1EakA")
 STRING2 = getenv("STRING_SESSION2", None)
 STRING3 = getenv("STRING_SESSION3", None)
 STRING4 = getenv("STRING_SESSION4", None)
 STRING5 = getenv("STRING_SESSION5", None)
 
 
-#  __     ___    _ _  ___  _______   __  __ _    _  _____ _____ _____   ____   ____ _______
-#  \ \   / / |  | | |/ / |/ /_   _| |  \/  | |  | |/ ____|_   _/ ____| |  _ \ / __ \__   __|
-#   \ \_/ /| |  | | ' /| ' /  | |   | \  / | |  | | (___   | || |      | |_) | |  | | | |
-#    \   / | |  | |  < |  <   | |   | |\/| | |  | |\___ \  | || |      |  _ <| |  | | | |
-#     | |  | |__| | . \| . \ _| |_  | |  | | |__| |____) |_| || |____  | |_) | |__| | | |
-#     |_|   \____/|_|\_\_|\_\_____| |_|  |_|\____/|_____/|_____\_____| |____/ \____/  |_|
-
-
 ### DONT TOUCH or EDIT codes after this line
 BANNED_USERS = filters.user()
 YTDOWNLOADER = 1
 LOG = 2
-LOG_FILE_NAME = "Nobara.txt"
+LOG_FILE_NAME = "Hydralogs.txt"
 adminlist = {}
 lyrical = {}
 chatstats = {}
@@ -168,10 +147,7 @@ autoclean = []
 
 
 # Images
-START_IMG_URL = getenv(
-    "START_IMG_URL",
-    "assets/Nobara.jpg", 
-)
+START_IMG_URL = getenv("START_IMG_URL", None)
 
 PING_IMG_URL = getenv(
     "PING_IMG_URL",
@@ -236,16 +212,11 @@ SPOTIFY_PLAYLIST_IMG_URL = getenv(
 
 def time_to_seconds(time):
     stringt = str(time)
-    return sum(
-        int(x) * 60**i
-        for i, x in enumerate(reversed(stringt.split(":")))
-    )
+    return sum(int(x) * 60**i for i, x in enumerate(reversed(stringt.split(":"))))
 
 
 DURATION_LIMIT = int(time_to_seconds(f"{DURATION_LIMIT_MIN}:00"))
-SONG_DOWNLOAD_DURATION_LIMIT = int(
-    time_to_seconds(f"{SONG_DOWNLOAD_DURATION}:00")
-)
+SONG_DOWNLOAD_DURATION_LIMIT = int(time_to_seconds(f"{SONG_DOWNLOAD_DURATION}:00"))
 
 if SUPPORT_CHANNEL:
     if not re.match("(?:http|https)://", SUPPORT_CHANNEL):
