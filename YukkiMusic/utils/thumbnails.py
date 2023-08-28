@@ -81,8 +81,8 @@ async def gen_thumb(videoid, is_played=True, bot_username="Itachi Uchihai!", gui
         draw.text((30, 610), f"Duration : {duration[:23]} Mins", (255, 255, 255), font=arial)
         draw.text((30, 660), f"Channel : {channel}", (255, 255, 255), font=arial)
 
-        telegraph_img = Image.open("assets/Nobara.jpg")
-        telegraph_img = telegraph_img.resize((350, 350))
+        telegraph_img = Image.open("assets/IMG_20230828_091552_958.jpg")
+        telegraph_img = telegraph_img.resize((400, 400))
         telegraph_mask = Image.new("L", telegraph_img.size, 0)
         telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
         telegraph_draw_mask.ellipse((0, 0, 350, 350), fill=255)     
