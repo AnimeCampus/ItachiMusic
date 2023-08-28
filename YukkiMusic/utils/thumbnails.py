@@ -15,7 +15,7 @@ def changeImageSize(maxWidth, maxHeight, image):
     newImage = image.resize((newWidth, newHeight))
     return newImage
 
-async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", guild_name="@JujutsuHighBotUpdates"):
+async def gen_thumb(videoid, is_played=True, bot_username="ItachiUchiha!", guild_name="@JujutsuHighBotUpdates"):
     if os.path.isfile(f"cache/{videoid}.png"):
         return f"cache/{videoid}.png"
 
@@ -86,13 +86,7 @@ async def gen_thumb(videoid, is_played=True, bot_username="Nobara Kugisaki!", gu
         telegraph_mask = Image.new("L", telegraph_img.size, 0)
         telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
         telegraph_draw_mask.ellipse((0, 0, 350, 350), fill=255)
-
-        telegraph_img = Image.open("assets/IMG_20230815_201922_161.jpg")
-        telegraph_img = telegraph_img.resize((350, 350))
-        telegraph_mask = Image.new("L", telegraph_img.size, 0)
-        telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
-        telegraph_draw_mask.ellipse((0, 0, 360, 360), fill=255)
-
+        
         
         background.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
