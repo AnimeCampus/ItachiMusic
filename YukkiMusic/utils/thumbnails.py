@@ -1,11 +1,24 @@
+#
+# Copyright (C) 2021-2022 by TeamYukki@Github, < https://github.com/TeamYukki >.
+#
+# This file is part of < https://github.com/TeamYukki/YukkiMusicBot > project,
+# and is released under the "GNU v3.0 License Agreement".
+# Please see < https://github.com/TeamYukki/YukkiMusicBot/blob/master/LICENSE >
+#
+# All rights reserved.
+
 import os
 import re
 import textwrap
+
 import aiofiles
 import aiohttp
-from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
+from PIL import (Image, ImageDraw, ImageEnhance, ImageFilter,
+                 ImageFont, ImageOps)
 from youtubesearchpython.__future__ import VideosSearch
+
 from config import MUSIC_BOT_NAME, YOUTUBE_IMG_URL
+
 
 def changeImageSize(maxWidth, maxHeight, image):
     widthRatio = maxWidth / image.size[0]
@@ -15,7 +28,8 @@ def changeImageSize(maxWidth, maxHeight, image):
     newImage = image.resize((newWidth, newHeight))
     return newImage
 
-async def gen_thumb(videoid, is_played=True, bot_username="Itachi Uchihai!", guild_name="@JujutsuHighBotUpdates"):
+
+async def gen_thumb(videoid):
     if os.path.isfile(f"cache/{videoid}.png"):
         return f"cache/{videoid}.png"
 
@@ -46,7 +60,9 @@ async def gen_thumb(videoid, is_played=True, bot_username="Itachi Uchihai!", gui
         async with aiohttp.ClientSession() as session:
             async with session.get(thumbnail) as resp:
                 if resp.status == 200:
-                    f = await aiofiles.open(f"cache/thumb{videoid}.png", mode="wb")
+                    f = await aiofiles.open(
+                        f"cache/thumb{videoid}.png", mode="wb"
+                    )
                     await f.write(await resp.read())
                     await f.close()
 
@@ -56,38 +72,78 @@ async def gen_thumb(videoid, is_played=True, bot_username="Itachi Uchihai!", gui
         background = image2.filter(filter=ImageFilter.BoxBlur(30))
         enhancer = ImageEnhance.Brightness(background)
         background = enhancer.enhance(0.6)
+        Xcenter = youtube.width / 2
+        Ycenter = youtube.height / 2
+        x1 = Xcenter - 250
+        y1 = Ycenter - 250
+        x2 = Xcenter + 250
+        y2 = Ycenter + 250
+        logo = youtube.crop((x1, y1, x2, y2))
+        logo.thumbnail((520, 520), Image.ANTIALIAS)
+        logo = ImageOps.expand(logo, border=15, fill="white")
+        background.paste(logo, (50, 100))
         draw = ImageDraw.Draw(background)
         font = ImageFont.truetype("assets/font2.ttf", 40)
         font2 = ImageFont.truetype("assets/font2.ttf", 70)
         arial = ImageFont.truetype("assets/font2.ttf", 30)
         name_font = ImageFont.truetype("assets/font.ttf", 30)
         para = textwrap.wrap(title, width=32)
-
-        draw.text((30, 30), f"{bot_username} - {guild_name}", fill="white", font=name_font)
-        if is_played:
-            draw.text((30, 150), "PLAYED", fill="white", font=font2)
-        draw.text((30, 250), "NOW PLAYING", fill="white", stroke_width=2, stroke_fill="white", font=font2)
-
         j = 0
+        draw.text(
+            (5, 5), f"{MUSIC_BOT_NAME}", fill="white", font=name_font
+        )
+        draw.text(
+            (600, 150),
+            "NOW PLAYING",
+            fill="white",
+            stroke_width=2,
+            stroke_fill="white",
+            font=font2,
+        )
         for line in para:
             if j == 1:
                 j += 1
-                draw.text((30, 400 + (j - 1) * 60), f"{line}", fill="white", stroke_width=1, stroke_fill="white", font=font)
+                draw.text(
+                    (600, 340),
+                    f"{line}",
+                    fill="white",
+                    stroke_width=1,
+                    stroke_fill="white",
+                    font=font,
+                )
             if j == 0:
                 j += 1
-                draw.text((30, 340 + (j - 1) * 60), f"{line}", fill="white", stroke_width=1, stroke_fill="white", font=font)
+                draw.text(
+                    (600, 280),
+                    f"{line}",
+                    fill="white",
+                    stroke_width=1,
+                    stroke_fill="white",
+                    font=font,
+                )
 
-        draw.text((30, 560), f"Views : {views[:23]}", (255, 255, 255), font=arial)
-        draw.text((30, 610), f"Duration : {duration[:23]} Mins", (255, 255, 255), font=arial)
-        draw.text((30, 660), f"Channel : {channel}", (255, 255, 255), font=arial)
-
-        telegraph_img = Image.open("assets/IMG_20230828_091552_958.jpg")
-        telegraph_img = telegraph_img.resize((400, 400))
-        telegraph_mask = Image.new("L", telegraph_img.size, 0)
-        telegraph_draw_mask = ImageDraw.Draw(telegraph_mask)
-        telegraph_draw_mask.ellipse((0, 0, 350, 350), fill=255)     
-
-        
+        draw.text(
+            (600, 450),
+            f"Views : {views[:23]}",
+            (255, 255, 255),
+            font=arial,
+        )
+        draw.text(
+            (600, 500),
+            f"Duration : {duration[:23]} Mins",
+            (255, 255, 255),
+            font=arial,
+        )
+        draw.text(
+            (600, 550),
+            f"Channel : {channel}",
+            (255, 255, 255),
+            font=arial,
+        )
+        try:
+            os.remove(f"cache/thumb{videoid}.png")
+        except:
+            pass
         background.save(f"cache/{videoid}.png")
         return f"cache/{videoid}.png"
     except Exception:
